@@ -4,7 +4,6 @@ import com.learning.japanese.Dtos.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +31,13 @@ public class GlobalExceptionsHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 new ErrorDto("Invalid email or password")
         );
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorDto> handleNotFound(NotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDto(ex.getMessage()));
     }
 
 }
