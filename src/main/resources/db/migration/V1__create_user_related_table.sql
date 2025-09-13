@@ -1,7 +1,7 @@
 CREATE TABLE `japanese_learning`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(25) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`));
 
