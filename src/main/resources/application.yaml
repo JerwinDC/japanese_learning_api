@@ -1,5 +1,9 @@
 spring:
   application:
     name: japanese
+  jwt:
+    secretKey: ${JWT_SECRET_KEY}
+    accessTokenExpiration: 300
+    refreshTokenExpiration: 604800
   profiles:
     active: dev

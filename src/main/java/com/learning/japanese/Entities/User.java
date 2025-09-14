@@ -1,5 +1,6 @@
 package com.learning.japanese.Entities;
 
+import com.learning.japanese.Dtos.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,10 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", insertable = false,updatable = false)
+    private Role role;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;

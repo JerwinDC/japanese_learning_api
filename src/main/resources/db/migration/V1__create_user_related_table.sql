@@ -1,9 +1,11 @@
 CREATE TABLE `japanese_learning`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
+  `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`)
+);
 
 CREATE TABLE `japanese_learning`.`lesson` (
   `id` INT NOT NULL AUTO_INCREMENT,
