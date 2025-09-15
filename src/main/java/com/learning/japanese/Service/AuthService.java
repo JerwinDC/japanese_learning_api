@@ -1,6 +1,5 @@
 package com.learning.japanese.Service;
 
-import com.learning.japanese.Dtos.LoginUserRequest;
 import com.learning.japanese.Dtos.RegisterUserRequest;
 import com.learning.japanese.Dtos.RegisterUserResponse;
 import com.learning.japanese.Entities.User;
@@ -10,7 +9,6 @@ import com.learning.japanese.Mappers.UserMapper;
 import com.learning.japanese.Repositories.UserRepository;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

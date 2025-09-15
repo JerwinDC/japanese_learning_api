@@ -1,12 +1,10 @@
 package com.learning.japanese.Entities;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -17,20 +15,25 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "title")
     private String title;
 
-    @Column(name = "type")
-    private String type;
-
-    @Column(name = "level")
-    private String level;
-
-    @Column(name = "content")
-    private String content;
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 
     @OneToMany(mappedBy = "lesson")
-    private Set<UserProgress> userProgress = new HashSet<>();
+    private Set<Section> sections = new LinkedHashSet<>();
+
+    public void addSection(Section section) {
+        sections.add(section);
+        section.setLesson(this);
+    }
+
+    public void removeSection(Section section) {
+        sections.remove(section);
+        section.setLesson(null);
+    }
 }

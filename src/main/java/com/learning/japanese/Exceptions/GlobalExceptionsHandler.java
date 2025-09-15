@@ -40,4 +40,26 @@ public class GlobalExceptionsHandler {
                 .body(new ErrorDto(ex.getMessage()));
     }
 
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleBookNotFoundException(){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto("Book not found!"));
+    }
+
+    @ExceptionHandler(LessonNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleLessonNotFoundException(){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto("Lesson not found!"));
+    }
+
+    @ExceptionHandler(SectionNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleSectionNotFoundException(){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto("Section not found!"));
+    }
+
+    @ExceptionHandler(GrammarNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleGrammarNotFoundException(){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto("Grammar not found!"));
+    }
+
+
+
 }

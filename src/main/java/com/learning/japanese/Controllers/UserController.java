@@ -1,8 +1,6 @@
 package com.learning.japanese.Controllers;
 
 import com.learning.japanese.Dtos.RegisterUserResponse;
-import com.learning.japanese.Entities.User;
-import com.learning.japanese.Repositories.UserRepository;
 import com.learning.japanese.Service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "User")
 @AllArgsConstructor

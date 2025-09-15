@@ -1,18 +1,14 @@
 package com.learning.japanese.Service;
 
 import com.learning.japanese.Dtos.RegisterUserResponse;
-import com.learning.japanese.Entities.User;
 import com.learning.japanese.Exceptions.NotFoundException;
 import com.learning.japanese.Mappers.UserMapper;
 import com.learning.japanese.Repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service

@@ -1,17 +1,112 @@
 package com.learning.japanese.Controllers;
 
+import com.learning.japanese.Dtos.*;
+import com.learning.japanese.Entities.Book;
+import com.learning.japanese.Exceptions.BookAlreadyExistExeption;
+import com.learning.japanese.Service.AdminService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+    private final AdminService adminService;
 
     @GetMapping("hello")
     public String sayHello(){
         return  "Hello Admin";
+    }
+
+    @PostMapping("/books")
+    public ResponseEntity<Book> addBook(
+            @Valid @RequestBody AddBookRequest request,
+            UriComponentsBuilder uriBuilder
+            ){
+
+            var book = adminService.addBook(request);
+            var uri = uriBuilder.path("/api/books/{id}").buildAndExpand(book.getId()).toUri();
+
+            return ResponseEntity.created(uri).body(book);
+    }
+
+    @PostMapping("/lessons")
+    public ResponseEntity<LessonResponseDto> addLesson(
+            @Valid @RequestBody AddLessonRequest request,
+            UriComponentsBuilder uriBuilder
+            ){
+
+            var lessonDto = adminService.addLesson(request);
+            var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}").buildAndExpand(request.getBookId(), lessonDto.getId()).toUri();
+
+            return ResponseEntity.created(uri).body(lessonDto);
+
+    }
+
+    @PostMapping("/sections")
+    public ResponseEntity<SectionResponseDto> addSection(
+            @Valid @RequestBody AddSectionRequest request,
+            UriComponentsBuilder uriBuilder
+            ){
+
+            var sectionDto = adminService.addSection(request);
+            var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}/sections/{sectionId}")
+                    .buildAndExpand(request.getBookId(), request.getLessonId(), sectionDto.getId())
+                    .toUri();
+
+            return ResponseEntity.created(uri).body(sectionDto);
+
+    }
+
+    @PostMapping("/sections/vocabularies")
+    public ResponseEntity<VocabularySectionResponseDto> addVocabulary(
+            @Valid @RequestBody AddVocabularyRequest request,
+            UriComponentsBuilder uriBuilder
+    ){
+
+            var vocabularyDto = adminService.addVocabulary(request);
+            var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}/sections/{sectionId}/vocabularies/{vocabularyId}")
+                .buildAndExpand(request.getBookId(), request.getLessonId(), request.getSectionId(), vocabularyDto.getId())
+                .toUri();
+
+            return ResponseEntity.created(uri).body(vocabularyDto);
+    }
+
+    @PostMapping("/sections/grammars")
+    public ResponseEntity<GrammarSectionResponseDto> addGrammar(
+            @Valid @RequestBody AddGrammarRequest request,
+            UriComponentsBuilder uriBuilder
+    ){
+
+        var grammarDto = adminService.addGrammar(request);
+        var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}/sections/{sectionId}/grammars/{grammarId}")
+                .buildAndExpand(request.getBookId(), request.getLessonId(), request.getSectionId(), grammarDto.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(grammarDto);
+    }
+
+    @PostMapping("/sections/grammars/sample")
+    public ResponseEntity<GrammarSampleResponseDto> addGrammarSample(
+            @Valid @RequestBody AddGrammarSampleRequest request,
+            UriComponentsBuilder uriBuilder
+    ){
+
+        var grammarSampleDto = adminService.addGrammarSample(request);
+        var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}/sections/{sectionId}/grammars/{grammarId}/sample/{id}")
+                .buildAndExpand(request.getBookId(), request.getLessonId(), request.getSectionId(), request.getGrammarId(), grammarSampleDto.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(grammarSampleDto);
+    }
+
+    @ExceptionHandler(BookAlreadyExistExeption.class)
+    public ResponseEntity<ErrorDto> handleBookAlreadyExistException(){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto("Book already exist!"));
     }
 
 }
