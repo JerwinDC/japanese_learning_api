@@ -5,7 +5,6 @@ import com.learning.japanese.Entities.*;
 import com.learning.japanese.Exceptions.*;
 import com.learning.japanese.Mappers.*;
 import com.learning.japanese.Repositories.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,9 @@ public class AdminService {
         var book = new Book();
         book.setTitle(request.getTitle());
         bookRepository.save(book);
+
         return book;
+
     }
 
     public LessonResponseDto addLesson(AddLessonRequest request){
@@ -43,7 +44,6 @@ public class AdminService {
         lesson.setTitle(request.getTitle());
         lesson.setBook(book);
         book.addLesson(lesson);
-
         lessonRepository.save(lesson);
 
         return lessonMapper.toDto(lesson);
@@ -58,15 +58,10 @@ public class AdminService {
         sectionRepository.save(section);
 
         return sectionMapper.toDto(section);
+
     }
 
     public VocabularySectionResponseDto addVocabulary(AddVocabularyRequest request){
-        bookRepository.findById(request.getBookId())
-                .orElseThrow(BookNotFoundException::new);
-
-        lessonRepository.findById(request.getLessonId())
-                .orElseThrow(LessonNotFoundException::new);
-
         var section = sectionRepository.findById(request.getSectionId())
                 .orElseThrow(SectionNotFoundException::new);
 
@@ -75,15 +70,10 @@ public class AdminService {
         vocabularyRepository.save(vocab);
 
         return vocabularyMapper.toDto(vocab);
+
     }
 
     public GrammarSectionResponseDto addGrammar(AddGrammarRequest request) {
-        bookRepository.findById(request.getBookId())
-                .orElseThrow(BookNotFoundException::new);
-
-        lessonRepository.findById(request.getLessonId())
-                .orElseThrow(LessonNotFoundException::new);
-
         var section = sectionRepository.findById(request.getSectionId())
                 .orElseThrow(SectionNotFoundException::new);
 
@@ -95,19 +85,9 @@ public class AdminService {
 
         return grammarMapper.toDto(grammar);
 
-
     }
 
     public GrammarSampleResponseDto addGrammarSample(AddGrammarSampleRequest request) {
-        bookRepository.findById(request.getBookId())
-                .orElseThrow(BookNotFoundException::new);
-
-        lessonRepository.findById(request.getLessonId())
-                .orElseThrow(LessonNotFoundException::new);
-
-        sectionRepository.findById(request.getSectionId())
-                .orElseThrow(SectionNotFoundException::new);
-
         var grammar = grammarRepository.findById(request.getGrammarId())
                 .orElseThrow(GrammarNotFoundException::new);
 

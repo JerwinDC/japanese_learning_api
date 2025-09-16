@@ -1,6 +1,6 @@
 package com.learning.japanese.Controllers;
 
-import com.learning.japanese.Dtos.SectionResponseDto;
+import com.learning.japanese.Dtos.GrammarSectionResponseDto;
 import com.learning.japanese.Service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/sections")
-public class SectionController {
+@RequestMapping("/api/grammars")
+public class GrammarController {
     private final BookService bookService;
 
-    @GetMapping("/{sectionId}")
-    public ResponseEntity<SectionResponseDto> getLesson(
-            @PathVariable(name = "sectionId") int sectionId)
+    @GetMapping("/{grammarId}")
+    public ResponseEntity<GrammarSectionResponseDto> getLesson(
+            @PathVariable(name = "grammarId") int grammarId)
     {
-        var sectionDto = bookService.getSection(sectionId);
-        return ResponseEntity.ok().body(sectionDto);
+
+        var grammarDto = bookService.getGrammar(grammarId);
+        return ResponseEntity.ok().body(grammarDto);
+
     }
 }

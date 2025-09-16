@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class AddLessonRequest {
-    @NotNull(message = "Book Id is necessary")
-    private int bookId;
+    @NotNull(message = "Book Id is required")
+    private Integer bookId;
 
-    @NotBlank(message = "Title is necessary")
+    @NotBlank(message = "Title is required")
     private String title;
 
 

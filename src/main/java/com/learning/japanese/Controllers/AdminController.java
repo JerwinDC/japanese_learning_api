@@ -41,7 +41,7 @@ public class AdminController {
             ){
 
             var lessonDto = adminService.addLesson(request);
-            var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}").buildAndExpand(request.getBookId(), lessonDto.getId()).toUri();
+            var uri = uriBuilder.path("/api/lessons/{lessonId}").buildAndExpand(lessonDto.getId()).toUri();
 
             return ResponseEntity.created(uri).body(lessonDto);
 
@@ -54,8 +54,8 @@ public class AdminController {
             ){
 
             var sectionDto = adminService.addSection(request);
-            var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}/sections/{sectionId}")
-                    .buildAndExpand(request.getBookId(), request.getLessonId(), sectionDto.getId())
+            var uri = uriBuilder.path("/api/sections/{sectionId}")
+                    .buildAndExpand(sectionDto.getId())
                     .toUri();
 
             return ResponseEntity.created(uri).body(sectionDto);
@@ -69,8 +69,8 @@ public class AdminController {
     ){
 
             var vocabularyDto = adminService.addVocabulary(request);
-            var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}/sections/{sectionId}/vocabularies/{vocabularyId}")
-                .buildAndExpand(request.getBookId(), request.getLessonId(), request.getSectionId(), vocabularyDto.getId())
+            var uri = uriBuilder.path("/api/vocabularies/{vocabularyId}")
+                .buildAndExpand(vocabularyDto.getId())
                 .toUri();
 
             return ResponseEntity.created(uri).body(vocabularyDto);
@@ -83,22 +83,22 @@ public class AdminController {
     ){
 
         var grammarDto = adminService.addGrammar(request);
-        var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}/sections/{sectionId}/grammars/{grammarId}")
-                .buildAndExpand(request.getBookId(), request.getLessonId(), request.getSectionId(), grammarDto.getId())
+        var uri = uriBuilder.path("/api/grammars/{grammarId}")
+                .buildAndExpand(grammarDto.getId())
                 .toUri();
 
         return ResponseEntity.created(uri).body(grammarDto);
     }
 
-    @PostMapping("/sections/grammars/sample")
+    @PostMapping("/sections/grammars/samples")
     public ResponseEntity<GrammarSampleResponseDto> addGrammarSample(
             @Valid @RequestBody AddGrammarSampleRequest request,
             UriComponentsBuilder uriBuilder
     ){
 
         var grammarSampleDto = adminService.addGrammarSample(request);
-        var uri = uriBuilder.path("/api/books/{bookId}/lessons/{lessonId}/sections/{sectionId}/grammars/{grammarId}/sample/{id}")
-                .buildAndExpand(request.getBookId(), request.getLessonId(), request.getSectionId(), request.getGrammarId(), grammarSampleDto.getId())
+        var uri = uriBuilder.path("/samples/{id}")
+                .buildAndExpand(grammarSampleDto.getId())
                 .toUri();
 
         return ResponseEntity.created(uri).body(grammarSampleDto);

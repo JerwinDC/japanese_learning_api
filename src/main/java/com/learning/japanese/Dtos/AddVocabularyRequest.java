@@ -6,14 +6,8 @@ import lombok.Data;
 
 @Data
 public class AddVocabularyRequest {
-    @NotNull(message = "Book id is required")
-    private int bookId;
-
-    @NotNull(message = "lesson id is required")
-    private int lessonId;
-
     @NotNull(message = "section id is required")
-    private int sectionId;
+    private Integer sectionId;
 
     @NotBlank(message = "Japanese is required")
     private String jp;

@@ -6,11 +6,8 @@ import lombok.Data;
 
 @Data
 public class AddSectionRequest {
-    @NotNull(message = "Book id is required")
-    private int bookId;
-
     @NotNull(message = "Lesson id is required")
-    private int lessonId;
+    private Integer lessonId;
 
     @NotBlank(message = "Type is required!")
     private String type;
