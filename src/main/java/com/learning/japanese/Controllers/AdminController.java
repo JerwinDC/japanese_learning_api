@@ -104,6 +104,50 @@ public class AdminController {
         return ResponseEntity.created(uri).body(grammarSampleDto);
     }
 
+
+    @PostMapping("/tests")
+    public ResponseEntity<AddTestResponse> addTest(
+            @Valid @RequestBody AddTestRequest request,
+            UriComponentsBuilder uriBuilder){
+
+            var addTestDto =  adminService.addTest(request);
+            var uri = uriBuilder.path("/tests/{id}")
+                .buildAndExpand(addTestDto.getId())
+                .toUri();
+
+            return ResponseEntity.created(uri).body(addTestDto);
+
+    }
+
+    @PostMapping("/questions")
+    public ResponseEntity<AddQuestionResponse> addQuestion(
+            @Valid @RequestBody AddQuestionRequest request,
+            UriComponentsBuilder uriBuilder){
+
+        var addQuestionDto =  adminService.addQuestion(request);
+        var uri = uriBuilder.path("/questions/{id}")
+                .buildAndExpand(addQuestionDto.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(addQuestionDto);
+
+    }
+
+    @PostMapping("/questions/options")
+    public ResponseEntity<AddOptionResponse> addOptions(
+            @Valid @RequestBody AddOptionRequest request,
+            UriComponentsBuilder uriBuilder){
+
+        var addOptionDto =  adminService.addOption(request);
+        var uri = uriBuilder.path("/questions/options/{id}")
+                .buildAndExpand(addOptionDto.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(addOptionDto);
+
+    }
+
+
     @ExceptionHandler(BookAlreadyExistExeption.class)
     public ResponseEntity<ErrorDto> handleBookAlreadyExistException(){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto("Book already exist!"));

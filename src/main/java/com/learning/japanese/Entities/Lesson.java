@@ -24,6 +24,9 @@ public class Lesson {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
+    private Set<Test> tests = new LinkedHashSet<>();
+
     @OneToMany(mappedBy = "lesson")
     private Set<Section> sections = new LinkedHashSet<>();
 
@@ -35,5 +38,15 @@ public class Lesson {
     public void removeSection(Section section) {
         sections.remove(section);
         section.setLesson(null);
+    }
+
+    public void addTest(Test test){
+        tests.add(test);
+        test.setLesson(this);
+    }
+
+    public void removeTest(Test test){
+        tests.remove(test);
+        test.setLesson(null);
     }
 }

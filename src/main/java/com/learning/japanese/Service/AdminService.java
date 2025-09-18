@@ -8,20 +8,30 @@ import com.learning.japanese.Repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @AllArgsConstructor
 @Service
 public class AdminService {
     private final BookRepository bookRepository;
+    private final TestRepository testRepository;
     private final LessonRepository lessonRepository;
     private final GrammarRepository grammarRepository;
     private final SectionRepository sectionRepository;
+    private final QuestionRepository questionRepository;
     private final VocabularyRepository vocabularyRepository;
+    private final TestQuestionRepository testQuestionRepository;
     private final GrammarSampleRepository grammarSampleRepository;
+    private final TestMapper testMapper;
     private final LessonMapper lessonMapper;
     private final SectionMapper sectionMapper;
     private final GrammarMapper grammarMapper;
+    private final QuestionMapper questionMapper;
     private final VocabularyMapper vocabularyMapper;
+    private final TestOptionMapper testOptionMapper;
     private final GrammarSampleMapper grammarSampleMapper;
+    private final TestOptionRepository testOptionRepository;
 
 
     public Book addBook(AddBookRequest request){
@@ -98,6 +108,51 @@ public class AdminService {
         grammarSampleRepository.save(sample);
 
         return grammarSampleMapper.toDto(sample);
+
+    }
+
+    public AddTestResponse addTest(AddTestRequest request) {
+        var lesson = lessonRepository.findById(request.getLessonId())
+                .orElseThrow(LessonNotFoundException::new);
+
+        var test = new Test();
+        test.setTitle(request.getTitle());
+        test.setDescription(request.getDescription());
+        lesson.addTest(test);
+
+        testRepository.save(test);
+
+        return testMapper.toDto(test);
+
+    }
+
+    public AddQuestionResponse addQuestion(AddQuestionRequest request) {
+        var test = testRepository.findById(request.getTestId())
+                .orElseThrow(TestNotFoundException::new);
+
+        var question = new TestQuestion();
+        question.setQuestionText(request.getQuestion());
+        question.setType(request.getType());
+        test.addQuestions(question);
+
+        questionRepository.save(question);
+
+        return questionMapper.toDto(question);
+
+    }
+
+    public AddOptionResponse addOption(AddOptionRequest request) {
+        var testQuestion = testQuestionRepository.findById(request.getQuestionId())
+                .orElseThrow(TestQuestionNotFoundException::new);
+
+        var option = new TestOption();
+        option.setOptionText(request.getOptionText());
+        option.setIsCorrect(request.getIsCorrect());
+        testQuestion.addOptions(option);
+
+        testOptionRepository.save(option);
+
+        return testOptionMapper.toDto(option);
 
     }
 }
